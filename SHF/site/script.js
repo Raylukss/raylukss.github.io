@@ -1,9 +1,8 @@
-// Page Navigation System - Apenas cliques
+// Page Navigation System - SCROLL LIVRE + NAVEGAÇÃO APENAS POR CLIQUE
 class PageNavigator {
   constructor() {
     this.currentSection = "inicio"
-    this.isTransitioning = false
-    this.sections = ["inicio", "sobre", "pilares", "softwares", "equipe"]
+    this.sections = ["inicio", "sobre", "pilares", "softwares", "planos", "equipe", "contato"]
     this.init()
   }
 
@@ -11,16 +10,17 @@ class PageNavigator {
     this.setupEventListeners()
     this.setupMobileMenu()
     this.hideLoading()
-    this.updateNavigation() // Adicionar esta linha para marcar "Início" como ativo
+    this.updateNavigation()
+    // REMOVER setupScrollSpy() - navegação APENAS por clique
   }
 
   setupEventListeners() {
-    // APENAS Navigation links - remover todos os outros event listeners
+    // Navigation links - APENAS para navegação entre seções
     document.querySelectorAll(".nav-link").forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault()
         const targetSection = link.getAttribute("href").substring(1)
-        this.navigateToSection(targetSection)
+        this.scrollToSection(targetSection)
       })
     })
 
@@ -28,34 +28,11 @@ class PageNavigator {
     const ctaButton = document.querySelector(".cta-button")
     if (ctaButton) {
       ctaButton.addEventListener("click", () => {
-        this.navigateToSection("sobre")
+        this.scrollToSection("sobre")
       })
     }
 
-    // REMOVER TODOS os event listeners de scroll, wheel, keyboard e touch
-    // Prevenir scroll completamente
-    document.addEventListener(
-      "wheel",
-      (e) => {
-        e.preventDefault()
-      },
-      { passive: false },
-    )
-
-    document.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault()
-      },
-      { passive: false },
-    )
-
-    document.addEventListener("keydown", (e) => {
-      // Prevenir teclas de navegação
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", "Space"].includes(e.key)) {
-        e.preventDefault()
-      }
-    })
+    // SCROLL LIVRE - sem interferência
   }
 
   setupMobileMenu() {
@@ -68,7 +45,6 @@ class PageNavigator {
         navMenu.classList.toggle("active")
       })
 
-      // Close mobile menu when clicking on a link
       document.querySelectorAll(".nav-link").forEach((link) => {
         link.addEventListener("click", () => {
           hamburger.classList.remove("active")
@@ -78,53 +54,39 @@ class PageNavigator {
     }
   }
 
-  navigateToSection(targetSection) {
-    if (this.isTransitioning || targetSection === this.currentSection) return
-
-    this.isTransitioning = true
-
-    // Mostrar overlay de transição
-    const transitionOverlay = document.getElementById("transitionOverlay")
-    transitionOverlay.classList.add("active")
-
-    const currentSectionEl = document.getElementById(this.currentSection)
-    const targetSectionEl = document.getElementById(targetSection)
-
-    if (!currentSectionEl || !targetSectionEl) return
-
-    setTimeout(() => {
-      // Fade out current section
-      currentSectionEl.classList.add("fade-out")
+  // Scroll suave APENAS para navegação entre seções por clique
+  scrollToSection(targetSection) {
+    const targetElement = document.getElementById(targetSection)
+    if (targetElement) {
+      // Mostrar overlay de transição
+      const transitionOverlay = document.getElementById("transitionOverlay")
+      if (transitionOverlay) {
+        transitionOverlay.classList.add("active")
+      }
 
       setTimeout(() => {
-        // Hide current section
-        currentSectionEl.classList.remove("active", "fade-out")
+        // Scroll suave para a seção
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
 
-        // Show target section
-        targetSectionEl.classList.add("active")
+        // Atualizar seção atual APENAS quando clicado
+        this.currentSection = targetSection
+        this.updateNavigation()
 
-        // Trigger fade in animation
-        setTimeout(() => {
-          targetSectionEl.classList.add("fade-in")
-
-          // Update current section
-          this.currentSection = targetSection
-
-          // Update navigation
-          this.updateNavigation()
-
-          // Hide transition overlay
-          transitionOverlay.classList.remove("active")
-
-          // Reset transition flag
+        // Esconder overlay
+        if (transitionOverlay) {
           setTimeout(() => {
-            this.isTransitioning = false
-            targetSectionEl.classList.remove("fade-in")
-          }, 400)
-        }, 100)
+            transitionOverlay.classList.remove("active")
+          }, 500)
+        }
       }, 200)
-    }, 300)
+    }
   }
+
+  // REMOVER setupScrollSpy - navegação APENAS por clique
+  // A seção ativa só muda quando clicamos nos links
 
   updateNavigation() {
     document.querySelectorAll(".nav-link").forEach((link) => {
@@ -136,7 +98,7 @@ class PageNavigator {
   }
 
   hideLoading() {
-    // Loading mais longo e elaborado
+    // LOADING FUNCIONANDO - tempo maior para ver o efeito
     setTimeout(() => {
       const loadingOverlay = document.getElementById("loadingOverlay")
       if (loadingOverlay) {
@@ -145,24 +107,43 @@ class PageNavigator {
           loadingOverlay.remove()
         }, 800)
       }
-    }, 3500) // Aumentar tempo de loading para 3.5 segundos
+    }, 3500) // 3.5 segundos de loading
   }
 }
 
-// Enhanced animations and effects - remover intersection observer baseado em scroll
+// Enhanced animations and effects
 class AnimationController {
   constructor() {
     this.init()
   }
 
   init() {
+    this.setupIntersectionObserver()
     this.setupHoverEffects()
     this.setupClickEffects()
-    // Remover setupIntersectionObserver
+  }
+
+  setupIntersectionObserver() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible")
+        }
+      })
+    }, observerOptions)
+
+    document.querySelectorAll(".mvv-card, .pillar-card, .software-card, .team-member").forEach((el) => {
+      el.classList.add("fade-in")
+      observer.observe(el)
+    })
   }
 
   setupHoverEffects() {
-    // Enhanced software card hover
     document.querySelectorAll(".software-card").forEach((card) => {
       card.addEventListener("mouseenter", () => {
         card.style.transform = "translateY(-10px) scale(1.02)"
@@ -175,7 +156,6 @@ class AnimationController {
       })
     })
 
-    // Enhanced team member hover
     document.querySelectorAll(".team-member").forEach((member) => {
       member.addEventListener("mouseenter", () => {
         member.style.transform = "translateY(-8px) scale(1.05)"
@@ -186,7 +166,6 @@ class AnimationController {
       })
     })
 
-    // Enhanced pillar card hover
     document.querySelectorAll(".pillar-card").forEach((card) => {
       card.addEventListener("mouseenter", () => {
         card.style.transform = "translateY(-15px)"
@@ -201,7 +180,6 @@ class AnimationController {
   }
 
   setupClickEffects() {
-    // Ripple effect for buttons
     document.querySelectorAll(".cta-button, .software-card, .team-member").forEach((element) => {
       element.addEventListener("click", function (e) {
         const ripple = document.createElement("span")
@@ -234,7 +212,6 @@ class FloatingAnimation {
     floatingCards.forEach((card, index) => {
       card.style.animationDelay = `${index * 0.5}s`
 
-      // Add random floating movement
       setInterval(
         () => {
           const randomX = (Math.random() - 0.5) * 10
@@ -247,6 +224,17 @@ class FloatingAnimation {
   }
 }
 
+// Função global para navegação
+function scrollToSection(sectionId) {
+  const targetElement = document.getElementById(sectionId)
+  if (targetElement) {
+    targetElement.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   new PageNavigator()
@@ -254,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
   new FloatingAnimation()
 })
 
-// Add CSS for ripple effect
+// Add CSS for ripple effect and navigation
 const style = document.createElement("style")
 style.textContent = `
   .ripple-effect {

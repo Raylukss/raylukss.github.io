@@ -14,11 +14,18 @@
   --text-light: #6b7280;
 }
 
+/* SCROLL LIVRE - SEM BLOQUEIOS */
 body {
   font-family: "Montserrat", sans-serif;
   line-height: 1.6;
   color: var(--text-dark);
   overflow-x: hidden;
+  overflow-y: auto; /* SCROLL LIVRE */
+}
+
+html {
+  overflow-y: auto; /* SCROLL LIVRE */
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -118,24 +125,6 @@ body {
   padding-top: 70px;
   position: relative;
   overflow: hidden;
-}
-
-/* Hero Section - Correção das cores */
-.hero.page-section {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--emerald-green) 100%) !important;
-  color: var(--white);
-}
-
-.hero.page-section .hero-title {
-  color: var(--white) !important;
-}
-
-.hero.page-section .hero-slogan {
-  color: var(--emerald-green) !important;
-}
-
-.hero.page-section .hero-support {
-  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .hero::before {
@@ -272,6 +261,7 @@ body {
 .about {
   padding: 100px 0;
   background: var(--white);
+  min-height: 100vh; /* Garantir altura mínima */
 }
 
 .about-content {
@@ -353,6 +343,7 @@ body {
 .pillars {
   padding: 100px 0;
   background: var(--light-gray);
+  min-height: 100vh; /* Garantir altura mínima */
 }
 
 .pillars-content {
@@ -482,12 +473,14 @@ body {
 .softwares {
   padding: 100px 0;
   background: var(--white);
+  min-height: 120vh; /* MAIS ALTURA PARA PERMITIR SCROLL */
 }
 
 .software-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
+  margin-bottom: 100px; /* ESPAÇO EXTRA PARA SCROLL */
 }
 
 .software-card {
@@ -553,16 +546,247 @@ body {
   font-weight: bold;
 }
 
+/* Planos Section */
+.planos {
+  padding: 100px 0;
+  background: var(--white);
+  min-height: 100vh;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.plan-card {
+  background: var(--light-gray);
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid transparent;
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.essencial {
+  border-top-color: #10b981;
+}
+
+.profissional {
+  border-top-color: #3b82f6;
+}
+
+.corporativo {
+  border-top-color: #8b5cf6;
+}
+
+.personalizado {
+  border-top-color: #eab308;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.plan-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.plan-header h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin-bottom: 15px;
+}
+
+.plan-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.plan-price span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+
+.plan-ideal {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.plan-features {
+  flex-grow: 1;
+  margin-bottom: 25px;
+}
+
+.plan-features h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+}
+
+.plan-features ul {
+  list-style: none;
+}
+
+.plan-features li {
+  margin-bottom: 10px;
+  padding-left: 25px;
+  position: relative;
+}
+
+.plan-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--emerald-green);
+  font-weight: bold;
+}
+
+.plan-button {
+  background: var(--emerald-green);
+  color: var(--white);
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.plan-button:hover {
+  background: #0d9668;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.extras-section {
+  background: var(--light-gray);
+  padding: 40px;
+  border-radius: 20px;
+  margin-bottom: 60px;
+}
+
+.extras-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.extras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.extra-item {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.extra-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.extra-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.extra-price {
+  color: var(--emerald-green);
+  font-weight: 700;
+}
+
+.strategy-section {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+  padding: 40px;
+  border-radius: 20px;
+  border-left: 5px solid var(--emerald-green);
+}
+
+.strategy-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 15px;
+}
+
+.strategy-section p {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.strategy-list {
+  list-style: none;
+}
+
+.strategy-list li {
+  margin-bottom: 10px;
+  padding-left: 25px;
+  position: relative;
+}
+
+.strategy-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--emerald-green);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .extras-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card {
+    padding: 25px;
+  }
+}
+
 /* Team Section */
 .team {
   padding: 100px 0;
   background: var(--light-gray);
+  min-height: 120vh; /* MAIS ALTURA PARA PERMITIR SCROLL */
 }
 
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
+  margin-bottom: 100px; /* ESPAÇO EXTRA PARA SCROLL */
 }
 
 .team-member {
@@ -947,61 +1171,6 @@ body {
   }
 }
 
-/* Remove todas as funcionalidades de scroll e adiciona animações de loading mais elaboradas */
-
-/* Remove scroll completamente */
-body {
-  overflow: hidden;
-  height: 100vh;
-}
-
-html {
-  overflow: hidden;
-}
-
-/* Remove as animações de scroll existentes e substitui por loading animations */
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Page transition styles aprimoradas */
-.page-section {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1;
-  overflow-y: auto;
-  background: var(--white);
-}
-
-.page-section.active {
-  opacity: 1;
-  visibility: visible;
-  z-index: 10;
-}
-
-.page-section.fade-out {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.page-section.fade-in {
-  opacity: 1;
-  transform: scale(1);
-}
-
 /* Loading overlay aprimorado */
 .loading-overlay {
   position: fixed;
@@ -1164,63 +1333,32 @@ html {
   }
 }
 
-/* Remove scroll indicator quando não há scroll */
-.scroll-indicator {
-  display: none;
+/* Customizar scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
 }
 
-/* Ajustes para seções sem scroll */
-.about.page-section,
-.pillars.page-section,
-.softwares.page-section,
-.team.page-section {
-  padding-top: 120px;
-  padding-bottom: 50px;
-  overflow-y: auto;
-}
-
-/* Customizar scrollbar para seções que precisam de scroll interno */
-.page-section::-webkit-scrollbar {
-  width: 8px;
-}
-
-.page-section::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: var(--light-gray);
 }
 
-.page-section::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: var(--emerald-green);
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-.page-section::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: #0d9668;
 }
-/* 💼 Planos de Gestão Financeira da SHF
 
-Plano	Ideal para	Inclui	Valor Mensal
+/* Fade in animation para elementos */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
 
-🟢 Essencial	MEIs, pequenos comércios	Controle de caixa, organização de despesas e receitas, suporte mensal por e-mail.	R$ 690,00
-🔵 Profissional	Pequenas e médias empresas	Essencial + relatórios financeiros mensais, orientação por videoconferência, emissão de boletos.	R$ 1.390,00
-🟣 Corporativo	Empresas médias e grandes	Profissional + planejamento tributário, análises avançadas, reuniões mensais, suporte prioritário.	R$ 2.990,00
-🟡 Personalizado	Grandes empresas ou demandas específicas	Tudo do Corporativo + consultorias presenciais, integração com setores internos, equipe dedicada.	Sob consulta (R$5.000+)
-
-✅ Extras que podem ser cobrados à parte (serviços avulsos)
-
-Emissão e organização de notas fiscais: R$ 150/mês
-
-Criação de plano financeiro anual: R$ 750
-
-Consultoria emergencial: R$ 350/h
-
-Treinamento de equipe financeira da empresa: a partir de R$ 1.500
-
-🧠 Estratégia de Acesso para Pequenos Negócios
-
-Mesmo com preços mais altos, você pode:
-
-Oferecer descontos progressivos para quem fecha por 6 ou 12 meses
-
-Ter vagas limitadas com preço reduzido para novos clientes
-
-Fazer parcerias com associações locais para alcançar pequenos comércios
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
